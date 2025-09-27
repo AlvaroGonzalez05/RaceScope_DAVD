@@ -53,5 +53,5 @@ El objetivo es ofrecer una herramienta clara, rápida y con la granularidad sufi
 
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/<usuario>/<repo>.git
+   git clone https://github.com/AlvaroGonzalez05/RaceScope_DAVD.git
    cd <repo>
