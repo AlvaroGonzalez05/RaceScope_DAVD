@@ -1,0 +1,188 @@
+{
+    "SAI": {
+        "id": "SAI",
+        "name": "Carlos Sainz",
+        "current_team": "Williams",
+        "last_seen": 2025
+    },
+    "PER": {
+        "id": "PER",
+        "name": "Sergio Perez",
+        "current_team": "Red Bull Racing",
+        "last_seen": 2024
+    },
+    "HAM": {
+        "id": "HAM",
+        "name": "Lewis Hamilton",
+        "current_team": "Ferrari",
+        "last_seen": 2025
+    },
+    "LEC": {
+        "id": "LEC",
+        "name": "Charles Leclerc",
+        "current_team": "Ferrari",
+        "last_seen": 2025
+    },
+    "ALO": {
+        "id": "ALO",
+        "name": "Fernando Alonso",
+        "current_team": "Aston Martin",
+        "last_seen": 2025
+    },
+    "NOR": {
+        "id": "NOR",
+        "name": "Lando Norris",
+        "current_team": "McLaren",
+        "last_seen": 2025
+    },
+    "VER": {
+        "id": "VER",
+        "name": "Max Verstappen",
+        "current_team": "Red Bull Racing",
+        "last_seen": 2025
+    },
+    "MSC": {
+        "id": "MSC",
+        "name": "Mick Schumacher",
+        "current_team": "Haas F1 Team",
+        "last_seen": 2022
+    },
+    "VET": {
+        "id": "VET",
+        "name": "Sebastian Vettel",
+        "current_team": "Aston Martin",
+        "last_seen": 2022
+    },
+    "MAG": {
+        "id": "MAG",
+        "name": "Kevin Magnussen",
+        "current_team": "Haas F1 Team",
+        "last_seen": 2024
+    },
+    "STR": {
+        "id": "STR",
+        "name": "Lance Stroll",
+        "current_team": "Aston Martin",
+        "last_seen": 2025
+    },
+    "LAT": {
+        "id": "LAT",
+        "name": "Nicholas Latifi",
+        "current_team": "Williams",
+        "last_seen": 2022
+    },
+    "RIC": {
+        "id": "RIC",
+        "name": "Daniel Ricciardo",
+        "current_team": "RB",
+        "last_seen": 2024
+    },
+    "TSU": {
+        "id": "TSU",
+        "name": "Yuki Tsunoda",
+        "current_team": "Red Bull Racing",
+        "last_seen": 2025
+    },
+    "OCO": {
+        "id": "OCO",
+        "name": "Esteban Ocon",
+        "current_team": "Haas F1 Team",
+        "last_seen": 2025
+    },
+    "GAS": {
+        "id": "GAS",
+        "name": "Pierre Gasly",
+        "current_team": "Alpine",
+        "last_seen": 2025
+    },
+    "BOT": {
+        "id": "BOT",
+        "name": "Valtteri Bottas",
+        "current_team": "Kick Sauber",
+        "last_seen": 2024
+    },
+    "RUS": {
+        "id": "RUS",
+        "name": "George Russell",
+        "current_team": "Mercedes",
+        "last_seen": 2025
+    },
+    "ZHO": {
+        "id": "ZHO",
+        "name": "Guanyu Zhou",
+        "current_team": "Kick Sauber",
+        "last_seen": 2024
+    },
+    "ALB": {
+        "id": "ALB",
+        "name": "Alexander Albon",
+        "current_team": "Williams",
+        "last_seen": 2025
+    },
+    "HUL": {
+        "id": "HUL",
+        "name": "Nico Hulkenberg",
+        "current_team": "Kick Sauber",
+        "last_seen": 2025
+    },
+    "PIA": {
+        "id": "PIA",
+        "name": "Oscar Piastri",
+        "current_team": "McLaren",
+        "last_seen": 2025
+    },
+    "SAR": {
+        "id": "SAR",
+        "name": "Logan Sargeant",
+        "current_team": "Williams",
+        "last_seen": 2024
+    },
+    "DEV": {
+        "id": "DEV",
+        "name": "Nyck De Vries",
+        "current_team": "AlphaTauri",
+        "last_seen": 2023
+    },
+    "LAW": {
+        "id": "LAW",
+        "name": "Liam Lawson",
+        "current_team": "Racing Bulls",
+        "last_seen": 2025
+    },
+    "COL": {
+        "id": "COL",
+        "name": "Franco Colapinto",
+        "current_team": "Alpine",
+        "last_seen": 2025
+    },
+    "BEA": {
+        "id": "BEA",
+        "name": "Oliver Bearman",
+        "current_team": "Haas F1 Team",
+        "last_seen": 2025
+    },
+    "DOO": {
+        "id": "DOO",
+        "name": "Jack Doohan",
+        "current_team": "Alpine",
+        "last_seen": 2025
+    },
+    "ANT": {
+        "id": "ANT",
+        "name": "Kimi Antonelli",
+        "current_team": "Mercedes",
+        "last_seen": 2025
+    },
+    "HAD": {
+        "id": "HAD",
+        "name": "Isack Hadjar",
+        "current_team": "Racing Bulls",
+        "last_seen": 2025
+    },
+    "BOR": {
+        "id": "BOR",
+        "name": "Gabriel Bortoleto",
+        "current_team": "Kick Sauber",
+        "last_seen": 2025
+    }
+}
