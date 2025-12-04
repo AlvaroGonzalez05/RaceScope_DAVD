@@ -1,32 +1,17 @@
-const CircuitInfo = ({ gp, year, loading }) => {
+const CircuitInfo = ({ gp, year }) => {
   return (
     <>
-      <div className="panel-header">
-        <h3>Info del Circuito</h3>
-      </div>
+      <div className="panel-header"><h3>Info del Circuito</h3></div>
       <div style={{flex:1, padding:'20px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
-        {loading ? (
-          <div style={{color:'#666'}}>Actualizando...</div>
-        ) : (
-          <>
-            <h2 style={{margin:'0 0 10px 0', fontSize:'1.8rem', color:'white'}}>
-              {gp || "---"}
-            </h2>
-            <div style={{display:'flex', gap:'15px', color:'#888', fontSize:'0.9rem'}}>
-              <span>📅 {year}</span>
-              <span>📍 Race Distance: 300km (aprox)</span>
-            </div>
-            
-            <div style={{marginTop:'20px', padding:'15px', background:'rgba(255,255,255,0.05)', borderRadius:'8px', borderLeft:'3px solid var(--accent-red)'}}>
-              <p style={{margin:0, fontStyle:'italic', color:'#ccc'}}>
-                "La degradación en {gp} suele ser crítica debido a la abrasividad del asfalto."
-              </p>
-            </div>
-          </>
-        )}
+        <h2 style={{margin:'0 0 5px 0', fontSize:'1.5rem', color:'white'}}>{gp || "---"}</h2>
+        <p style={{margin:0, color:'#666'}}>{year}</p>
+        <div style={{marginTop:'15px', padding:'10px', borderLeft:'3px solid #ff3333', background:'rgba(255,51,51,0.1)'}}>
+          <p style={{margin:0, fontSize:'0.85rem', color:'#ccc', fontStyle:'italic'}}>
+            "Circuito de alta degradación térmica. La posición en pista es clave."
+          </p>
+        </div>
       </div>
     </>
   );
 };
-
 export default CircuitInfo;

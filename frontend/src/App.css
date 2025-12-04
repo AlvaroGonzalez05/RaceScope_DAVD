@@ -1,10 +1,9 @@
-/* frontend/src/App.css */
 :root {
   --bg-dark: #0a0a0a;
   --bg-panel: #161616;
   --text-primary: #e0e0e0;
   --text-secondary: #a0a0a0;
-  --accent-red: #ff3333; /* F1 Red */
+  --accent-red: #ff3333;
   --border-color: #333;
 }
 
@@ -12,7 +11,7 @@ body {
   margin: 0;
   background-color: var(--bg-dark);
   color: var(--text-primary);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   height: 100vh;
   overflow: hidden;
 }
@@ -23,133 +22,67 @@ body {
   height: 100vh;
 }
 
-/* --- BARRA SUPERIOR (HEADER) --- */
+/* --- HEADER SUPERIOR --- */
 .control-bar {
-  height: 80px;
+  height: 70px;
   background-color: var(--bg-panel);
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  padding: 0 25px;
   z-index: 10;
 }
 
-.logo h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  letter-spacing: -1px;
-  font-style: italic;
-}
+.logo h1 { margin: 0; font-size: 1.4rem; font-style: italic; letter-spacing: -1px; }
 .logo span { color: var(--accent-red); }
 
-.controls {
-  display: flex;
-  gap: 15px;
-  align-items: center;
+.controls { display: flex; gap: 10px; }
+.input-group input {
+  background: #2a2a2a; border: 1px solid #444; color: white;
+  padding: 8px 12px; border-radius: 4px; outline: none;
 }
-
-.input-group input, .input-group select {
-  background: #2a2a2a;
-  border: 1px solid #444;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.input-group input:focus {
-  border-color: var(--accent-red);
-}
+.input-group input:focus { border-color: var(--accent-red); }
 
 .btn-start {
-  background: var(--accent-red);
-  color: white;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 6px;
-  font-weight: 700;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: transform 0.1s, background 0.2s;
+  background: var(--accent-red); color: white; border: none;
+  padding: 8px 20px; border-radius: 4px; font-weight: bold; cursor: pointer;
 }
+.btn-start:disabled { background: #444; cursor: not-allowed; }
 
-.btn-start:hover { background: #cc0000; }
-.btn-start:active { transform: scale(0.98); }
-.btn-start:disabled { background: #555; cursor: not-allowed; }
-
-/* --- GRID PRINCIPAL (Dashboard) --- */
+/* --- GRID PRINCIPAL --- */
 .dashboard-grid {
-  flex: 1; /* Ocupa el resto de la altura */
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 Columnas */
-  grid-template-rows: repeat(5, 1fr);    /* 5 Filas */
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   gap: 15px;
-  padding: 20px;
+  padding: 15px;
 }
 
-/* Paneles Genéricos */
 .panel {
   background-color: var(--bg-panel);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 
 .panel-header {
-  padding: 12px 15px;
+  padding: 10px 15px;
   background: rgba(255,255,255,0.03);
   border-bottom: 1px solid var(--border-color);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
+.panel-header h3 { margin: 0; font-size: 0.85rem; text-transform: uppercase; color: var(--text-secondary); }
 
-.panel-header h3 { margin: 0; font-size: 0.9rem; text-transform: uppercase; color: var(--text-secondary); }
+/* --- POSICIONAMIENTO EN GRID --- */
+.area-telemetry { grid-column: 1 / 4; grid-row: 1 / 6; } /* Izquierda Grande */
+.area-strategy  { grid-column: 4 / 6; grid-row: 1 / 5; } /* Derecha Arriba */
+.area-circuit   { grid-column: 4 / 6; grid-row: 5 / 6; } /* Derecha Abajo */
 
-/* --- ÁREAS DEL GRID (Tu especificación) --- */
-
-/* TELEMETRÍA: Filas 0-4, Cols 0-2 (Izquierda grande) */
-.area-telemetry {
-  grid-column: 1 / 4;
-  grid-row: 1 / 6;
-}
-
-/* ESTRATEGIA: Filas 0-3, Cols 3-4 (Derecha Arriba) */
-.area-strategy {
-  grid-column: 4 / 6;
-  grid-row: 1 / 5;
-}
-
-/* CIRCUITO: Fila 4, Cols 3-4 (Derecha Abajo) */
-.area-circuit {
-  grid-column: 4 / 6;
-  grid-row: 5 / 6;
-}
-
-/* ESTADOS DE CARGA */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: #444;
-}
+/* LOADING */
 .loading-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(2px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 5;
+  display: flex; justify-content: center; align-items: center;
+  height: 100%; color: var(--text-secondary);
 }
