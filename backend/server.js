@@ -87,6 +87,51 @@ app.post('/api/predict-strategy', (req, res) => {
     });
 });
 
+
+// --- ENDPOINT: TELEMETRÍA (Python FastF1) ---
+app.post('/api/telemetry', (req, res) => {
+    const { driver, gp, year } = req.body;
+
+    if (!driver || !gp || !year) {
+        return res.status(400).json({ error: "Faltan parámetros" });
+    }
+
+    console.log(`📡 Solicitando Telemetría: ${driver} @ ${gp} ${year}`);
+
+    const scriptPath = path.join(__dirname, 'ml', 'f1_telemetry_helper.py');
+    
+    // Detección de entorno Python (igual que en predict-strategy)
+    let pythonCmd = 'python3';
+    const venvPathLinux = path.join(__dirname, '..', 'venv', 'bin', 'python');
+    const venvPathWin = path.join(__dirname, '..', 'venv', 'Scripts', 'python.exe');
+    if (fs.existsSync(venvPathLinux)) pythonCmd = venvPathLinux;
+    else if (fs.existsSync(venvPathWin)) pythonCmd = venvPathWin;
+
+    const pyProcess = spawn(pythonCmd, [scriptPath, driver, gp, year.toString()]);
+
+    let dataString = '';
+    let errorString = '';
+
+    pyProcess.stdout.on('data', (data) => dataString += data.toString());
+    pyProcess.stderr.on('data', (data) => errorString += data.toString());
+
+    pyProcess.on('close', (code) => {
+        if (code !== 0) {
+            console.error("Error Python Telemetría:", errorString);
+            return res.status(500).json({ error: "Error obteniendo telemetría", details: errorString });
+        }
+        try {
+            const result = JSON.parse(dataString);
+            if (result.error) return res.status(500).json(result);
+            res.json(result);
+        } catch (e) {
+            console.error("Error JSON:", e);
+            res.status(500).json({ error: "Respuesta inválida" });
+        }
+    });
+});
+
+
 app.listen(PORT, () => {
     console.log(`🚀 Servidor Backend corriendo en http://localhost:${PORT}`);
     console.log(`📂 Guardando estrategias en: ${strategiesDir}`);

@@ -6,5 +6,93 @@
         "pit_loss": 22.5,
         "circuit_name": "Bahrain Grand Prix",
         "avg_top_speed": 296.6903023983316
+    },
+    "2022_Monaco Grand Prix": {
+        "total_laps": 64,
+        "track_temp": 31.0,
+        "air_temp": 22.3,
+        "pit_loss": 22.5,
+        "circuit_name": "Monaco Grand Prix",
+        "avg_top_speed": 257.4295415959253
+    },
+    "2023_Monaco Grand Prix": {
+        "total_laps": 78,
+        "track_temp": 39.3,
+        "air_temp": 25.1,
+        "pit_loss": 22.5,
+        "circuit_name": "Monaco Grand Prix",
+        "avg_top_speed": 272.87252311756936
+    },
+    "2024_Monaco Grand Prix": {
+        "total_laps": 78,
+        "track_temp": 46.3,
+        "air_temp": 21.6,
+        "pit_loss": 22.5,
+        "circuit_name": "Monaco Grand Prix",
+        "avg_top_speed": 275.35360908353607
+    },
+    "2024_Australia Grand Prix": {
+        "total_laps": 58,
+        "track_temp": 38.4,
+        "air_temp": 20.6,
+        "pit_loss": 22.5,
+        "circuit_name": "Australian Grand Prix",
+        "avg_top_speed": 290.84886363636366
+    },
+    "2023_Bahrain Grand Prix": {
+        "total_laps": 57,
+        "track_temp": 31.0,
+        "air_temp": 27.4,
+        "pit_loss": 22.5,
+        "circuit_name": "Bahrain Grand Prix",
+        "avg_top_speed": 296.67480577136513
+    },
+    "2025_Bahrain Grand Prix": {
+        "total_laps": 57,
+        "track_temp": 31.9,
+        "air_temp": 27.1,
+        "pit_loss": 22.5,
+        "circuit_name": "Bahrain Grand Prix",
+        "avg_top_speed": 298.8360160965795
+    },
+    "2025_Monaco Grand Prix": {
+        "total_laps": 78,
+        "track_temp": 43.3,
+        "air_temp": 22.2,
+        "pit_loss": 22.5,
+        "circuit_name": "Monaco Grand Prix",
+        "avg_top_speed": 275.9030898876405
+    },
+    "2023_Bahrain": {
+        "total_laps": 57,
+        "track_temp": 31.0,
+        "air_temp": 27.4,
+        "pit_loss": 22.5,
+        "circuit_name": "Bahrain Grand Prix",
+        "avg_top_speed": 296.67480577136513
+    },
+    "2025_Bahrain": {
+        "total_laps": 57,
+        "track_temp": 31.9,
+        "air_temp": 27.1,
+        "pit_loss": 22.5,
+        "circuit_name": "Bahrain Grand Prix",
+        "avg_top_speed": 298.8360160965795
+    },
+    "2025_Monaco": {
+        "total_laps": 78,
+        "track_temp": 43.3,
+        "air_temp": 22.2,
+        "pit_loss": 22.5,
+        "circuit_name": "Monaco Grand Prix",
+        "avg_top_speed": 275.9030898876405
+    },
+    "2025_Belgium": {
+        "total_laps": 44,
+        "track_temp": 24.1,
+        "air_temp": 17.0,
+        "pit_loss": 22.5,
+        "circuit_name": "Belgian Grand Prix",
+        "avg_top_speed": 298.39224137931035
     }
 }
