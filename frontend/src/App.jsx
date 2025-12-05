@@ -2,23 +2,23 @@ import { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
+// Importamos los datos estáticos
+import { DRIVERS, CIRCUITS, YEARS } from './data';
+
 // Importamos los componentes
 import TelemetryPanel from './components/TelemetryPanel';
 import StrategyPanel from './components/StrategyPanel';
 import CircuitInfo from './components/CircuitInfo';
 
 function App() {
-  // Estado para los Inputs del formulario
+  // Valores iniciales (Coinciden con los values del data.js)
   const [inputs, setInputs] = useState({ 
     driver: 'ALO', 
-    gp: 'Bahrain', // Usa nombres cortos para ayudar a la búsqueda (ej: Bahrain, Monza)
+    gp: 'Bahrain Grand Prix', 
     year: '2023' 
   });
   
-  // Estado "Trigger": Guarda la configuración CONFIRMADA al dar Start
   const [activeConfig, setActiveConfig] = useState(null);
-  
-  // Estado para la Estrategia (que sí viene del Backend Python)
   const [strategyData, setStrategyData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,19 +30,16 @@ function App() {
     setLoading(true);
     setError(null);
     
-    // 1. Guardamos la configuración activa (Esto despierta al TelemetryPanel)
-    // Importante: Convertimos driver a mayúsculas aquí
+    // Al usar selectores, sabemos que los datos son correctos y limpios
     setActiveConfig({
-      driverCode: inputs.driver.toUpperCase(),
+      driverCode: inputs.driver,
       gpName: inputs.gp,
       year: inputs.year
     });
 
     try {
-      // 2. Pedimos SOLO la estrategia al Backend (Python)
-      // La telemetría va por libre directamente a OpenF1 desde el componente
       const res = await axios.post('http://localhost:5001/api/predict-strategy', {
-        driver: inputs.driver.toUpperCase(),
+        driver: inputs.driver,
         gp: inputs.gp, 
         year: inputs.year
       });
@@ -50,7 +47,7 @@ function App() {
       setStrategyData(res.data);
     } catch (err) {
       console.error(err);
-      setError('Error al calcular estrategia. Revisa que el backend (puerto 5001) esté corriendo.');
+      setError('Error al conectar con el servidor.');
     } finally {
       setLoading(false);
     }
@@ -63,32 +60,32 @@ function App() {
         <div className="logo"><h1>RACE<span>SCOPE</span></h1></div>
         
         <form className="controls" onSubmit={handleStart}>
+          
+          {/* SELECTOR AÑO */}
           <div className="input-group">
-            <input 
-              name="driver" 
-              placeholder="Piloto (ej: ALO)" 
-              value={inputs.driver} 
-              onChange={handleChange} 
-              maxLength="3"
-            />
+            <select name="year" value={inputs.year} onChange={handleChange} className="select-box year-select">
+              {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+            </select>
           </div>
+
+          {/* SELECTOR GRAN PREMIO */}
           <div className="input-group">
-            <input 
-              name="gp" 
-              placeholder="Gran Premio (ej: Bahrain)" 
-              value={inputs.gp} 
-              onChange={handleChange} 
-            />
+            <select name="gp" value={inputs.gp} onChange={handleChange} className="select-box gp-select">
+              {CIRCUITS.map(c => (
+                <option key={c.value} value={c.value}>{c.label}</option>
+              ))}
+            </select>
           </div>
+
+          {/* SELECTOR PILOTO */}
           <div className="input-group">
-            <input 
-              name="year" 
-              type="number" 
-              value={inputs.year} 
-              onChange={handleChange} 
-              style={{width:'80px'}}
-            />
+            <select name="driver" value={inputs.driver} onChange={handleChange} className="select-box driver-select">
+              {DRIVERS.map(d => (
+                <option key={d.id} value={d.id}>{d.id} - {d.name}</option>
+              ))}
+            </select>
           </div>
+
           <button type="submit" className="btn-start" disabled={loading}>
             {loading ? 'ANALIZANDO...' : 'START'}
           </button>
@@ -98,10 +95,8 @@ function App() {
       {/* DASHBOARD GRID */}
       <main className="dashboard-grid">
         
-        {/* 1. PANEL TELEMETRÍA (Autónomo) */}
         <section className="panel area-telemetry">
           {activeConfig ? (
-            /* AQUÍ ESTABA EL ERROR ANTES: Pasamos las props individuales */
             <TelemetryPanel 
               driverCode={activeConfig.driverCode}
               gpName={activeConfig.gpName}
@@ -109,12 +104,11 @@ function App() {
             />
           ) : (
             <div className="empty-state">
-              <p>Selecciona carrera y pulsa START para cargar datos.</p>
+              <p>Selecciona la configuración arriba y pulsa START</p>
             </div>
           )}
         </section>
 
-        {/* 2. PANEL ESTRATEGIA (Viene del Backend Python) */}
         <section className="panel area-strategy">
           <StrategyPanel 
             data={strategyData} 
@@ -123,11 +117,10 @@ function App() {
           />
         </section>
 
-        {/* 3. PANEL CIRCUITO (Info estática) */}
         <section className="panel area-circuit">
           <CircuitInfo 
-            gp={activeConfig ? activeConfig.gpName : inputs.gp} 
-            year={activeConfig ? activeConfig.year : inputs.year} 
+            // Si hay datos de estrategia, usamos su info enriquecida. Si no, usamos lo del selector.
+            data={strategyData ? strategyData.circuit_info : null}
           />
         </section>
 

@@ -131,6 +131,13 @@ app.post('/api/telemetry', (req, res) => {
     });
 });
 
+// Servir mapas de circuitos
+const mapsDir = path.join(__dirname, 'public', 'maps');
+if (!fs.existsSync(mapsDir)) {
+    fs.mkdirSync(mapsDir, { recursive: true });
+}
+app.use('/maps', express.static(mapsDir));
+
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor Backend corriendo en http://localhost:${PORT}`);
