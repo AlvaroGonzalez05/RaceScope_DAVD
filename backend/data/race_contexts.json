@@ -94,5 +94,37 @@
         "pit_loss": 22.5,
         "circuit_name": "Belgian Grand Prix",
         "avg_top_speed": 298.39224137931035
+    },
+    "2023_Spain": {
+        "total_laps": 66,
+        "track_temp": 33.8,
+        "air_temp": 22.7,
+        "pit_loss": 22.5,
+        "circuit_name": "Spanish Grand Prix",
+        "avg_top_speed": 306.8928210313448
+    },
+    "2023_Saudi Arabia": {
+        "total_laps": 50,
+        "track_temp": 31.8,
+        "air_temp": 26.1,
+        "pit_loss": 22.5,
+        "circuit_name": "Saudi Arabian Grand Prix",
+        "avg_top_speed": 299.42887473460723
+    },
+    "2021_Saudi Arabia": {
+        "total_laps": 50,
+        "track_temp": 31.7,
+        "air_temp": 28.8,
+        "pit_loss": 22.5,
+        "circuit_name": "Saudi Arabian Grand Prix",
+        "avg_top_speed": 268.8525564803805
+    },
+    "2024_Saudi Arabia": {
+        "total_laps": 50,
+        "track_temp": 31.6,
+        "air_temp": 25.5,
+        "pit_loss": 22.5,
+        "circuit_name": "Saudi Arabian Grand Prix",
+        "avg_top_speed": 306.35777777777776
     }
 }

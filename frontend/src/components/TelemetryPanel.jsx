@@ -49,22 +49,20 @@ const TelemetryPanel = ({ driverCode, gpName, year }) => {
   if (error) return <div className="loading-overlay" style={{color:'#ff4444'}}>{error}</div>;
   if (!data) return <div className="loading-overlay">Esperando datos...</div>;
 
+  // AQUÍ ESTABA EL ERROR: Python envía "lap_time", así que desestructuramos "lap_time"
   const { telemetry, corners, lap_time, eventName } = data;
 
   // --- CONFIGURACIÓN DE ALINEADO ---
-  // 1. Márgenes idénticos para todos
   const CHART_MARGIN = { top: 5, right: 10, left: 0, bottom: 0 };
-  // 2. Ancho fijo para el eje Y (suficiente para 5 dígitos de RPM)
   const Y_AXIS_WIDTH = 45; 
 
   const CommonGrid = () => <CartesianGrid strokeDasharray="3 3" stroke={THEME.GRID} opacity={0.3} />;
   
-  // XAxis invisible pero PRESENTE para mantener la escala
   const CommonXAxis = ({ hide = true }) => (
     <XAxis 
       dataKey="Distance" 
       type="number" 
-      domain={['dataMin', 'dataMax']} // Clave para sincronizar zoom/escala
+      domain={['dataMin', 'dataMax']} 
       hide={hide} 
       tick={{ fill: '#888', fontSize: 10 }}
     />
@@ -96,6 +94,7 @@ const TelemetryPanel = ({ driverCode, gpName, year }) => {
           <h3 style={{margin:0, fontSize:'0.9rem', color: THEME.SPEED}}>{driverCode} - FASTEST LAP</h3>
           <small style={{color:'#666'}}>{eventName}</small>
         </div>
+        {/* CORRECCIÓN: Usamos lap_time aquí */}
         <span style={{color: THEME.TEXT, fontSize:'1.1rem', fontWeight:'bold', fontFamily:'monospace'}}>{lap_time}</span>
       </div>
 
@@ -165,7 +164,6 @@ const TelemetryPanel = ({ driverCode, gpName, year }) => {
         <ResponsiveContainer>
           <LineChart data={telemetry} syncId="f1" margin={CHART_MARGIN}>
             <CommonGrid />
-            {/* El último gráfico sí muestra el eje X */}
             <CommonXAxis hide={false} />
             <YAxis domain={[0, 9]} tickCount={9} width={Y_AXIS_WIDTH} tick={{fill:THEME.GEAR, fontSize:10}} />
             <Tooltip content={<CustomTooltip />} />
