@@ -50,7 +50,8 @@ const TelemetryPanel = ({ driverCode, gpName, year, theme }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.post('http://localhost:5001/api/telemetry', {
+      /* const res = await axios.post('http://localhost:5001/api/telemetry', {*/
+      const res = await axios.post('/api/telemetry', {
         driver: driverCode,
         gp: gpName,
         year: year

@@ -34,7 +34,8 @@ function App() {
     setActiveConfig({ driverCode: inputs.driver, gpName: inputs.gp, year: inputs.year });
 
     try {
-      const res = await axios.post('http://localhost:5001/api/predict-strategy', {
+      /* const res = await axios.post('http://localhost:5001/api/predict-strategy', {*/
+      const res = await axios.post('/api/predict-strategy', {
         driver: inputs.driver, gp: inputs.gp, year: inputs.year
       });
       setStrategyData(res.data);

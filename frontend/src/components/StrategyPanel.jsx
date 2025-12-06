@@ -1,7 +1,6 @@
 import React from 'react';
 import StrategyChart from './StrategyChart';
 
-// AQUÍ FALTABA AÑADIR 'theme' 👇
 const StrategyPanel = ({ data, loading, error, theme }) => {
   
   // Colores dinámicos para los textos del panel

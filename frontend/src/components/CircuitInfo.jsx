@@ -44,7 +44,8 @@ const CircuitInfo = ({ data, theme }) => {
         <div style={{flex: 1.2, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
           {map_url ? (
             <img 
-              src={`http://localhost:5001${map_url}`} 
+              /*src={`http://localhost:5001${map_url}`} */
+              src={map_url}
               alt="Circuit Layout" 
               // CLAVE: Aplicamos la clase 'inverted' si el tema es light
               className={`circuit-map-img ${theme === 'light' ? 'inverted' : ''}`}

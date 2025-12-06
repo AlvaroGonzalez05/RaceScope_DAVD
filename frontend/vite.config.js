@@ -7,9 +7,26 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // Forzamos a que todas las librerías usen la MISMA copia de React
       react: path.resolve(__dirname, 'node_modules/react'),
       'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
     },
   },
+  // --- AÑADE ESTO PARA EL DESARROLLO LOCAL ---
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5001',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/strategies': {
+        target: 'http://localhost:5001',
+        changeOrigin: true,
+      },
+      '/maps': {
+        target: 'http://localhost:5001',
+        changeOrigin: true,
+      }
+    }
+  }
 })
