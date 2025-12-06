@@ -35,7 +35,13 @@
         "air_temp": 21.6,
         "pit_loss": 22.5,
         "circuit_name": "Monaco Grand Prix",
-        "avg_top_speed": 275.35360908353607
+        "avg_top_speed": 300.0,
+        "map_url": "/maps/2024_Monaco_Grand_Prix_Map.png",
+        "tech_info": {
+            "deg": "LOW",
+            "downforce": "MAXIMUM",
+            "overtake": "IMPOSSIBLE"
+        }
     },
     "2024_Australia Grand Prix": {
         "total_laps": 58,
@@ -255,6 +261,76 @@
             "deg": "MEDIUM",
             "downforce": "LOW",
             "overtake": "MEDIUM"
+        }
+    },
+    "2025_Azerbaijan Grand Prix": {
+        "total_laps": 51,
+        "track_temp": 26.1,
+        "air_temp": 20.6,
+        "pit_loss": 22.5,
+        "circuit_name": "Azerbaijan Grand Prix",
+        "avg_top_speed": 300.0,
+        "map_url": "/maps/2025_Azerbaijan_Grand_Prix_Map.png",
+        "tech_info": {
+            "deg": "LOW",
+            "downforce": "LOW",
+            "overtake": "EASY"
+        }
+    },
+    "2022_Azerbaijan Grand Prix": {
+        "total_laps": 51,
+        "track_temp": 47.1,
+        "air_temp": 25.4,
+        "pit_loss": 22.5,
+        "circuit_name": "Azerbaijan Grand Prix",
+        "avg_top_speed": 300.0,
+        "map_url": "/maps/2022_Azerbaijan_Grand_Prix_Map.png",
+        "tech_info": {
+            "deg": "LOW",
+            "downforce": "LOW",
+            "overtake": "EASY"
+        }
+    },
+    "2023_Azerbaijan Grand Prix": {
+        "total_laps": 51,
+        "track_temp": 41.2,
+        "air_temp": 24.9,
+        "pit_loss": 22.5,
+        "circuit_name": "Azerbaijan Grand Prix",
+        "avg_top_speed": 300.0,
+        "map_url": "/maps/2023_Azerbaijan_Grand_Prix_Map.png",
+        "tech_info": {
+            "deg": "LOW",
+            "downforce": "LOW",
+            "overtake": "EASY"
+        }
+    },
+    "2024_British Grand Prix": {
+        "total_laps": 52,
+        "track_temp": 27.7,
+        "air_temp": 15.8,
+        "pit_loss": 22.5,
+        "circuit_name": "British Grand Prix",
+        "avg_top_speed": 300.0,
+        "map_url": "/maps/2024_British_Grand_Prix_Map.png",
+        "tech_info": {
+            "deg": "HIGH",
+            "downforce": "HIGH",
+            "overtake": "HARD"
+        }
+    },
+    "2024_Belgian Grand Prix": {
+        "total_laps": 44,
+        "track_temp": 42.3,
+        "air_temp": 21.3,
+        "pit_loss": 22.5,
+        "circuit_name": "Belgian Grand Prix",
+        "avg_top_speed": 300.0,
+        "map_url": "/maps/2024_Belgian_Grand_Prix_Map.png",
+        "tech_info": {
+            "deg": "HIGH",
+            "downforce": "LOW",
+            "overtake": "EASY"
         }
     }
 }
