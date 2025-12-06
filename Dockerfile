@@ -1,40 +1,38 @@
-# 1. Usamos una imagen base que tenga Python y Node instalados
-FROM nikolaik/python-nodejs:python3.10-nodejs18
+# 1. ACTUALIZACIÓN CRÍTICA: Usamos Node 20 (Requerido por Vite nuevo)
+FROM nikolaik/python-nodejs:python3.10-nodejs20
 
-# 2. Creamos el directorio de trabajo en el servidor
 WORKDIR /app
 
-# 3. Copiamos los archivos de dependencias primero (para aprovechar caché de Docker)
+# 2. Instalamos dependencias de Python (aprovechando caché de Docker)
 COPY requirements.txt ./
-COPY backend/package.json backend/
-COPY frontend/package.json frontend/
-
-# 4. Instalamos dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 5. Instalamos dependencias del Backend
+# 3. Instalamos dependencias de Node (Backend)
+COPY backend/package.json backend/
 WORKDIR /app/backend
 RUN npm install
 
-# 6. Instalamos dependencias del Frontend y construimos la versión de producción
+# 4. Instalamos dependencias de Node (Frontend)
 WORKDIR /app/frontend
+COPY frontend/package.json ./
 RUN npm install
-RUN npm run build
 
-# 7. Volvemos a la raíz y copiamos TODO el código del proyecto
+# -----------------------------------------------------------
+# 5. PASO CRÍTICO: Copiamos el código fuente AHORA
+# (Antes lo hacíamos después del build, por eso fallaba al no encontrar index.html)
+# -----------------------------------------------------------
 WORKDIR /app
 COPY . .
 
-# 8. Importante: Movemos la "build" del frontend a la carpeta pública del backend
-# (Vite genera la web en frontend/dist, el backend la espera en backend/public)
-# Primero borramos la carpeta public del backend si existe para evitar conflictos
-RUN rm -rf backend/public
-# Movemos la carpeta dist generada por Vite y la renombramos a public dentro del backend
-RUN mv frontend/dist backend/public
+# 6. Ahora sí, construimos el Frontend (con todos los archivos presentes)
+WORKDIR /app/frontend
+RUN npm run build
 
-# 9. Exponemos el puerto
+# 7. Movemos la carpeta 'dist' generada al backend
+WORKDIR /app
+RUN rm -rf backend/public && mv frontend/dist backend/public
+
+# 8. Arrancamos
 EXPOSE 5001
-
-# 10. Comando para arrancar el servidor
 WORKDIR /app/backend
 CMD ["node", "server.js"]
