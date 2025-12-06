@@ -8,7 +8,7 @@ import sys
 import warnings
 from itertools import product
 
-# FIX MATPLOTLIB PARA SERVIDORES
+# FIX MATPLOTLIB
 import matplotlib
 matplotlib.use('Agg') 
 import matplotlib.pyplot as plt
@@ -24,7 +24,7 @@ DIRS = {
     'cache': os.path.join(BACKEND_DIR, 'f1_cache'),
     'data': os.path.join(BACKEND_DIR, 'data'),
     'output': os.path.join(BACKEND_DIR, 'public', 'strategies'),
-    'maps': os.path.join(BACKEND_DIR, 'public', 'maps')
+    'maps': os.path.join(BACKEND_DIR, 'public', 'maps') # Asegúrate que esta carpeta exista
 }
 
 for d in DIRS.values(): os.makedirs(d, exist_ok=True)
@@ -35,7 +35,7 @@ except: pass
 
 plt.style.use('dark_background')
 
-# --- BASE DE DATOS TÉCNICA INTELIGENTE ---
+# --- DB TÉCNICA ---
 CIRCUIT_DB = {
     'bahrain': {'deg': 'HIGH', 'downforce': 'MEDIUM', 'overtake': 'EASY'},
     'saudi':   {'deg': 'MEDIUM', 'downforce': 'LOW', 'overtake': 'MEDIUM'},
@@ -73,7 +73,7 @@ CIRCUIT_DB = {
 LAUNCH_PENALTY = {'SOFT': 0.0, 'MEDIUM': 1.5, 'HARD': 4.0}
 TYRE_LIMIT_PCT = {'SOFT': 0.35, 'MEDIUM': 0.60, 'HARD': 0.75}
 COMPOUND_RANK = {'SOFT': 1, 'MEDIUM': 2, 'HARD': 3}
-MULTI_STOP_BIAS = 4.0
+MULTI_STOP_BIAS = 5.0
 
 class RaceContextManager:
     def __init__(self):
@@ -110,11 +110,15 @@ class StrategySimulator:
     def _generate_track_map(self, session, safe_gp_name):
         filename = f"{self.year}_{safe_gp_name}_Map.png"
         filepath = os.path.join(DIRS['maps'], filename)
+        
+        # Si ya existe el archivo físico, devolvemos la URL
         if os.path.exists(filepath): return f"/maps/{filename}"
 
         try:
             lap = session.laps.pick_fastest()
+            # Esto puede fallar si no hay datos de posición
             tel = lap.get_telemetry()
+            
             fig, ax = plt.subplots(figsize=(6, 4))
             ax.plot(tel['X'], tel['Y'], color='#ff3333', linewidth=3)
             ax.axis('off')
@@ -124,7 +128,10 @@ class StrategySimulator:
             plt.savefig(filepath, facecolor='#1e1e1e', dpi=100, bbox_inches='tight', pad_inches=0)
             plt.close(fig)
             return f"/maps/{filename}"
-        except: return None
+        except Exception as e:
+            # IMPRIMIR ERROR EN LOG DE NODE PARA DEPURAR
+            print(f"[PY DEBUG] Error generando mapa: {e}", file=sys.stderr)
+            return None
 
     def _get_enrichment_data(self, gp_name):
         name_lower = gp_name.lower()
@@ -133,15 +140,15 @@ class StrategySimulator:
         return {'deg': 'UNKNOWN', 'downforce': 'UNKNOWN', 'overtake': 'UNKNOWN'}
 
     def _get_race_context(self):
-        # 1. Intentar cargar caché
         cached = self.mgr.get_context(self.gp_name, self.year)
         
-        # 2. VALIDACIÓN DE CACHÉ (El fix importante)
-        # Si la caché existe pero es vieja (no tiene map_url), la ignoramos y regeneramos
-        if cached and 'map_url' in cached and 'tech_info' in cached:
+        # --- FIX: VALIDAR QUE LA CACHÉ TENGA MAPA VÁLIDO ---
+        # Si map_url es null o no existe, forzamos regeneración
+        if cached and cached.get('map_url') and cached.get('tech_info'):
             return cached
 
-        # 3. Si no es válida, generamos de cero
+        print(f"[PY DEBUG] Generando contexto y mapa para {self.gp_name}...", file=sys.stderr)
+
         ctx = {'total_laps': 57, 'track_temp': 35.0, 'air_temp': 25.0, 
                'pit_loss': 22.5, 'circuit_name': self.gp_name, 'avg_top_speed': 300.0,
                'map_url': None, 'tech_info': self._get_enrichment_data(self.gp_name)}
@@ -167,13 +174,16 @@ class StrategySimulator:
             try: ctx['circuit_name'] = session.event['EventName']
             except: pass
             
+            # Generar mapa
             safe_gp = self.gp_name.replace(' ', '_')
             ctx['map_url'] = self._generate_track_map(session, safe_gp)
             ctx['tech_info'] = self._get_enrichment_data(session.event['EventName'])
 
             self.mgr.save_context(self.gp_name, self.year, ctx)
             return ctx
-        except: return ctx
+        except Exception as e:
+            print(f"[PY DEBUG] Error general contexto: {e}", file=sys.stderr)
+            return ctx
 
     def predict_stint_time(self, compound, start_lap, length):
         model = self.pkg['model']
@@ -246,7 +256,6 @@ if __name__ == "__main__":
                     "name": sim.ctx['circuit_name'], "location": GP,
                     "laps": sim.ctx['total_laps'], "track_temp": sim.ctx['track_temp'],
                     "air_temp": sim.ctx['air_temp'],
-                    # Usamos .get() por seguridad para evitar KeyError si falló la generación
                     "map_url": sim.ctx.get('map_url'),
                     "tech": sim.ctx.get('tech_info', {'deg': 'UNK', 'downforce': 'UNK', 'overtake': 'UNK'})
                 },
