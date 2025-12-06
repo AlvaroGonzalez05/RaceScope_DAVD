@@ -138,6 +138,12 @@ if (!fs.existsSync(mapsDir)) {
 }
 app.use('/maps', express.static(mapsDir));
 
+// --- SERVIR FRONTEND EN PRODUCCIÓN ---
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor Backend corriendo en http://localhost:${PORT}`);
