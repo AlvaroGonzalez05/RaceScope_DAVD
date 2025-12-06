@@ -1,13 +1,17 @@
 import React from 'react';
 
-const CircuitInfo = ({ data }) => {
-  // Si aún no hay datos del backend, mostramos estado neutro
+const CircuitInfo = ({ data, theme }) => {
+  // Ajuste de colores según tema
+  const textColor = theme === 'light' ? '#333' : 'white';
+  const subTextColor = theme === 'light' ? '#666' : '#aaa';
+  const cardBg = theme === 'light' ? '#f0f2f5' : '#222';
+
   if (!data) {
     return (
       <>
-        <div className="panel-header"><h3>Info del Circuito</h3></div>
-        <div style={{flex:1, display:'flex', alignItems:'center', justifyContent:'center', color:'#444'}}>
-          Esperando datos de carrera...
+        <div className="panel-header"><h3>CIRCUIT INTEL</h3></div>
+        <div style={{flex:1, display:'flex', alignItems:'center', justifyContent:'center', color: subTextColor}}>
+          Waiting for circuit data...
         </div>
       </>
     );
@@ -15,15 +19,13 @@ const CircuitInfo = ({ data }) => {
 
   const { name, laps, track_temp, air_temp, map_url, tech } = data;
 
-  // Función para asignar colores a los niveles (High = Rojo, Low = Verde)
   const getBadgeColor = (level, type) => {
-    const l = level.toUpperCase();
+    const l = level ? level.toUpperCase() : 'UNKNOWN';
     if (type === 'deg') {
-      if (l === 'HIGH') return '#ff3333'; // Rojo
-      if (l === 'MEDIUM') return '#ffaa00'; // Naranja
-      return '#00cc44'; // Verde
+      if (l === 'HIGH') return '#ff3333';
+      if (l === 'MEDIUM') return '#ffaa00';
+      return '#00cc44';
     }
-    // Para Overtake/Downforce
     if (l === 'HIGH' || l === 'MAXIMUM' || l === 'EASY') return '#00cc44';
     if (l === 'HARD' || l === 'IMPOSSIBLE') return '#ff3333';
     return '#ffaa00';
@@ -33,51 +35,50 @@ const CircuitInfo = ({ data }) => {
     <>
       <div className="panel-header" style={{display:'flex', justifyContent:'space-between'}}>
         <h3>CIRCUIT INTEL</h3>
-        <span style={{color: '#888', fontSize:'0.8rem'}}>Track Temp: <b style={{color:'white'}}>{track_temp}°C</b></span>
+        <span style={{color: subTextColor, fontSize:'0.9rem'}}>Track Temp: <b style={{color: textColor, fontSize:'1.1rem'}}>{track_temp}°C</b></span>
       </div>
 
-      <div style={{flex:1, padding:'15px', display:'flex', gap:'20px'}}>
+      <div style={{flex:1, padding:'20px', display:'flex', gap:'30px', alignItems: 'center'}}>
         
-        {/* COLUMNA IZQUIERDA: Mapa */}
-        <div style={{flex: 1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
+        {/* Left: Map */}
+        <div style={{flex: 1.2, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
           {map_url ? (
             <img 
               src={`http://localhost:5001${map_url}`} 
               alt="Circuit Layout" 
-              style={{maxWidth:'100%', maxHeight:'140px', filter: 'drop-shadow(0 0 5px rgba(255,51,51,0.5))'}} 
+              // CLAVE: Aplicamos la clase 'inverted' si el tema es light
+              className={`circuit-map-img ${theme === 'light' ? 'inverted' : ''}`}
+              // IMPORTANTE: Quitamos el 'filter' del style inline para evitar conflictos
             />
           ) : (
-            <div style={{width:'100%', height:'100%', border:'1px dashed #333', borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', color:'#444'}}>
-              Mapa no disponible
+            <div style={{width:'100%', height:'150px', border:`1px dashed ${subTextColor}`, borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', color: subTextColor}}>
+              Map Unavailable
             </div>
           )}
-          <h2 style={{margin:'10px 0 0 0', fontSize:'1.1rem', textAlign:'center'}}>{name}</h2>
-          <span style={{fontSize:'0.8rem', color:'#666'}}>{laps} Laps</span>
+          <h2 style={{margin:'15px 0 5px 0', fontSize:'1.4rem', textAlign:'center', lineHeight:'1.2', color: textColor}}>{name}</h2>
+          <span style={{fontSize:'1rem', color: subTextColor, fontWeight:'bold'}}>{laps} Laps</span>
         </div>
 
-        {/* COLUMNA DERECHA: Stats */}
-        <div style={{flex: 1, display:'flex', flexDirection:'column', justifyContent:'center', gap:'10px'}}>
+        {/* Right: Technical Stats */}
+        <div style={{flex: 1, display:'flex', flexDirection:'column', justifyContent:'center', gap:'12px'}}>
           
-          {/* Badge 1: Degradación */}
-          <div style={{background:'#222', padding:'8px 12px', borderRadius:'6px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-            <span style={{fontSize:'0.8rem', color:'#aaa'}}>Tyre Stress</span>
-            <span style={{fontWeight:'bold', color: getBadgeColor(tech.deg, 'deg'), fontSize:'0.9rem'}}>
+          <div style={{background: cardBg, padding:'12px 15px', borderRadius:'8px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <span style={{fontSize:'0.9rem', color: subTextColor, fontWeight:'500'}}>Tyre Stress</span>
+            <span style={{fontWeight:'800', color: getBadgeColor(tech.deg, 'deg'), fontSize:'1.1rem', letterSpacing:'1px'}}>
               {tech.deg}
             </span>
           </div>
 
-          {/* Badge 2: Carga Aero */}
-          <div style={{background:'#222', padding:'8px 12px', borderRadius:'6px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-            <span style={{fontSize:'0.8rem', color:'#aaa'}}>Downforce</span>
-            <span style={{fontWeight:'bold', color:'white', fontSize:'0.9rem'}}>
+          <div style={{background: cardBg, padding:'12px 15px', borderRadius:'8px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <span style={{fontSize:'0.9rem', color: subTextColor, fontWeight:'500'}}>Downforce</span>
+            <span style={{fontWeight:'800', color: textColor, fontSize:'1.1rem', letterSpacing:'1px'}}>
               {tech.downforce}
             </span>
           </div>
 
-          {/* Badge 3: Adelantamiento */}
-          <div style={{background:'#222', padding:'8px 12px', borderRadius:'6px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-            <span style={{fontSize:'0.8rem', color:'#aaa'}}>Overtaking</span>
-            <span style={{fontWeight:'bold', color: getBadgeColor(tech.overtake, 'over'), fontSize:'0.9rem'}}>
+          <div style={{background: cardBg, padding:'12px 15px', borderRadius:'8px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <span style={{fontSize:'0.9rem', color: subTextColor, fontWeight:'500'}}>Overtaking</span>
+            <span style={{fontWeight:'800', color: getBadgeColor(tech.overtake, 'over'), fontSize:'1.1rem', letterSpacing:'1px'}}>
               {tech.overtake}
             </span>
           </div>

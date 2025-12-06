@@ -27,7 +27,10 @@ const COMPOUND_SHORTHAND = {
   'WET': 'W'
 };
 
-const StrategyChart = ({ strategies }) => {
+const StrategyChart = ({ strategies, theme }) => { // Recibe theme
+  // Colores de texto según tema
+  const AXIS_COLOR = theme === 'light' ? '#333' : '#fff';
+  const TOOLTIP_BG = theme === 'light' ? 'rgba(255,255,255,0.95)' : 'rgba(0,0,0,0.9)';
   // 1. Calcular Vueltas Totales (para fijar el Eje X)
   const totalRaceLaps = strategies.length > 0 
     ? strategies[0].laps.reduce((a, b) => a + b, 0) 
@@ -69,11 +72,10 @@ const StrategyChart = ({ strategies }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div style={{ backgroundColor: 'rgba(0,0,0,0.9)', border: '1px solid #444', padding: '10px', zIndex: 100 }}>
-          {/* Usamos el nombre original para el tooltip */}
-          <p style={{ margin: 0, fontWeight: 'bold', color: '#fff' }}>{data.name}</p>
-          <p style={{ margin: '5px 0', color: '#ccc', fontSize: '0.9rem' }}>
-            Time: <span style={{ color: '#fff' }}>{data.totalTime}</span> ({data.diff})
+        <div style={{ backgroundColor: TOOLTIP_BG, border: '1px solid #ccc', padding: '10px', zIndex: 100 }}>
+          <p style={{ margin: 0, fontWeight: 'bold', color: AXIS_COLOR }}>{label}</p>
+          <p style={{ margin: '5px 0', color: AXIS_COLOR, fontSize: '0.9rem' }}>
+            Time: <b>{data.totalTime}</b> ({data.diff})
           </p>
           <div style={{ marginTop: '5px', fontSize: '0.8rem' }}>
             {payload.map((entry, index) => {
@@ -97,30 +99,26 @@ const StrategyChart = ({ strategies }) => {
   return (
     <div style={{ width: '100%', height: '100%', minHeight: '0' }}>
       <ResponsiveContainer>
-        <BarChart
-          layout="vertical"
-          data={chartData}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#444" opacity={0.3} />
+        <BarChart layout="vertical" data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke={AXIS_COLOR} opacity={0.1} />
           
           <XAxis 
             type="number" 
             domain={[0, totalRaceLaps]} 
-            stroke="#888" 
-            tick={{ fill: '#888', fontSize: 10 }}
+            stroke={AXIS_COLOR} 
+            tick={{ fill: AXIS_COLOR, fontSize: 10 }} // Color dinámico
             tickCount={8} 
           />
           
           <YAxis 
             type="category" 
-            dataKey="yLabel" // <--- CAMBIO: Usamos la etiqueta compuesta
-            stroke="#fff" 
-            tick={{ fill: '#fff', fontWeight: 'bold', fontSize: 11 }} 
-            width={110} // <--- CAMBIO: Más espacio para el texto "(+3.5s)"
+            dataKey="yLabel" 
+            stroke={AXIS_COLOR} 
+            tick={{ fill: AXIS_COLOR, fontWeight: 'bold', fontSize: 11 }} // Color dinámico
+            width={110} 
           />
           
-          <Tooltip content={<CustomTooltip />} cursor={{fill: 'rgba(255,255,255,0.05)'}} />
+          <Tooltip content={<CustomTooltip />} cursor={{fill: theme==='light'?'rgba(0,0,0,0.05)':'rgba(255,255,255,0.05)'}} />
 
           {Array.from({ length: maxStints }).map((_, i) => (
             <Bar 

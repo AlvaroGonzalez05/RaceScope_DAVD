@@ -51,7 +51,13 @@
         "air_temp": 27.4,
         "pit_loss": 22.5,
         "circuit_name": "Bahrain Grand Prix",
-        "avg_top_speed": 296.67480577136513
+        "avg_top_speed": 300.0,
+        "map_url": "/maps/2023_Bahrain_Grand_Prix_Map.png",
+        "tech_info": {
+            "deg": "HIGH",
+            "downforce": "MEDIUM",
+            "overtake": "EASY"
+        }
     },
     "2025_Bahrain Grand Prix": {
         "total_laps": 57,
@@ -221,6 +227,34 @@
             "deg": "MEDIUM",
             "downforce": "HIGH",
             "overtake": "HARD"
+        }
+    },
+    "2023_Canadian Grand Prix": {
+        "total_laps": 70,
+        "track_temp": 30.6,
+        "air_temp": 18.5,
+        "pit_loss": 22.5,
+        "circuit_name": "Canadian Grand Prix",
+        "avg_top_speed": 300.0,
+        "map_url": "/maps/2023_Canadian_Grand_Prix_Map.png",
+        "tech_info": {
+            "deg": "MEDIUM",
+            "downforce": "LOW",
+            "overtake": "EASY"
+        }
+    },
+    "2024_Saudi Arabian Grand Prix": {
+        "total_laps": 50,
+        "track_temp": 31.6,
+        "air_temp": 25.5,
+        "pit_loss": 22.5,
+        "circuit_name": "Saudi Arabian Grand Prix",
+        "avg_top_speed": 300.0,
+        "map_url": "/maps/2024_Saudi_Arabian_Grand_Prix_Map.png",
+        "tech_info": {
+            "deg": "MEDIUM",
+            "downforce": "LOW",
+            "overtake": "MEDIUM"
         }
     }
 }
