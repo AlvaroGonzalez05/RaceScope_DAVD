@@ -1,9 +1,9 @@
-# 1. ACTUALIZACIÓN CRÍTICA: Usamos Node 20 (Requerido por Vite nuevo)
+# 1. Usamos Node 20 (Necesario para Vite actual)
 FROM nikolaik/python-nodejs:python3.10-nodejs20
 
 WORKDIR /app
 
-# 2. Instalamos dependencias de Python (aprovechando caché de Docker)
+# 2. Instalamos dependencias de Python
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -18,14 +18,17 @@ COPY frontend/package.json ./
 RUN npm install
 
 # -----------------------------------------------------------
-# 5. PASO CRÍTICO: Copiamos el código fuente AHORA
-# (Antes lo hacíamos después del build, por eso fallaba al no encontrar index.html)
+# 5. Copiamos el código fuente
 # -----------------------------------------------------------
 WORKDIR /app
 COPY . .
 
-# 6. Ahora sí, construimos el Frontend (con todos los archivos presentes)
+# -----------------------------------------------------------
+# 6. FIX: Forzamos instalación de librerías faltantes y construimos
+# -----------------------------------------------------------
 WORKDIR /app/frontend
+# ¡ESTA ES LA LÍNEA NUEVA QUE ARREGLA EL ERROR! 👇
+RUN npm install axios recharts
 RUN npm run build
 
 # 7. Movemos la carpeta 'dist' generada al backend
